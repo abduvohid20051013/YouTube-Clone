@@ -35,7 +35,7 @@ homeCloseBtn.onclick = () => {
     mainLeft.style.display = "flex"
     homePart.style.display = "none"
     mainRight.style.width = "auto"
-    mainRight.style.width = "82%"
+    mainRight.style.width = "83%"
 }
 let videosList = $(".videosList")
 let voiceRec = $(".voiceRec")
