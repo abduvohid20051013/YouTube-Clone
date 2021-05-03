@@ -128,9 +128,10 @@ body main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 90.2vh;
+  min-height: 87%;
+  height: 90%;
   overflow-y: hidden;
-  width: 100vw;
+  width: 100%;
 }
 body main .mainLeftPart {
   display: block;
@@ -232,6 +233,7 @@ body main .mainRightPart ul {
 }
 body main .mainRightPart ul li {
   margin: 7px;
+  max-height: 500px;
 }
 body main .mainRightPart ul li .videoWrapper {
   width: 350px;
