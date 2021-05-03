@@ -168,6 +168,7 @@ function videosRenderer(array) {
         let button = videoItem.childNodes[0].childNodes[2].childNodes[0]
         button.addEventListener('click', () => {
             videoItem.remove()
+            localStorage.clear()
         })
     }
 }
