@@ -167,13 +167,7 @@ function videosRenderer(array) {
         videosList.appendChild(videoItem)
         let button = videoItem.childNodes[0].childNodes[2].childNodes[0]
         button.addEventListener('click', () => {
-            newArr = []
-            console.log(videoName.textContent);
-            if (element.title !== videoName.textContent) {
-                localStorage.removeItem(element);
-
-            }
-            videosRenderer(videos)
+            videoItem.remove()
         })
     }
 }
@@ -217,8 +211,6 @@ function modalClose() {
     btn.onclick = () => {
         let modalScr = document.querySelector('.modalScreen');
         modalScr.remove()
-        localStorage.clear()
-
     }
 }
 modalRenderer()
