@@ -35,7 +35,7 @@ homeCloseBtn.onclick = () => {
     mainLeft.style.display = "flex"
     homePart.style.display = "none"
     mainRight.style.width = "auto"
-    mainRight.style.width = "100%"
+    mainRight.style.width = "82%"
 }
 let videosList = $(".videosList")
 let voiceRec = $(".voiceRec")
@@ -167,11 +167,15 @@ function videosRenderer(array) {
         videosList.appendChild(videoItem)
         let button = videoItem.childNodes[0].childNodes[2].childNodes[0]
         button.addEventListener('click', () => {
-            videoItem.remove()
+            newArr = []
+            console.log(videoName.textContent);
+            if (element.title !== videoName.textContent) {
+                localStorage.removeItem(element);
+
+            }
+            videosRenderer(videos)
         })
     }
-
-
 }
 videosRenderer(videos)
 
@@ -188,7 +192,6 @@ function modalRenderer() {
             let modalCloseImg = document.createElement("img")
             let videoLink = c.parentNode.childNodes[0].childNodes[0].src
             modalVideoIfr.src = videoLink + "?autoplay=1&mute=0";
-
             modalScreen.classList.add("modalScreen")
             modalVideo.classList.add("modalVideo")
             modalVideoIfr.classList.add("modalVideoIfr")

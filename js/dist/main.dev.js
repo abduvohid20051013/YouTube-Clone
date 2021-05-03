@@ -126,16 +126,123 @@ homeCloseBtn.onclick = function () {
 };
 
 var videosList = $(".videosList");
+var voiceRec = $(".voiceRec");
+var searchInput = $(".searchInput");
+var newArray = [];
+
+searchInput.onkeyup = function () {
+  if (searchInput.value != "") {
+    newArray = [];
+    var str = searchInput.value.toLowerCase();
+    var _iteratorNormalCompletion5 = true;
+    var _didIteratorError5 = false;
+    var _iteratorError5 = undefined;
+
+    try {
+      for (var _iterator5 = videos[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+        var el = _step5.value;
+
+        if (el.title.toLowerCase().includes(str)) {
+          newArray.push(el);
+        }
+      }
+    } catch (err) {
+      _didIteratorError5 = true;
+      _iteratorError5 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+          _iterator5["return"]();
+        }
+      } finally {
+        if (_didIteratorError5) {
+          throw _iteratorError5;
+        }
+      }
+    }
+  } else {
+    videosRenderer(videos);
+  }
+};
+
+function searchFun() {
+  if (searchInput.value != "") {
+    newArray = [];
+    var str = searchInput.value.toLowerCase();
+    var _iteratorNormalCompletion6 = true;
+    var _didIteratorError6 = false;
+    var _iteratorError6 = undefined;
+
+    try {
+      for (var _iterator6 = videos[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+        var el = _step6.value;
+
+        if (el.title.toLowerCase().includes(str)) {
+          newArray.push(el);
+        }
+      }
+    } catch (err) {
+      _didIteratorError6 = true;
+      _iteratorError6 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
+          _iterator6["return"]();
+        }
+      } finally {
+        if (_didIteratorError6) {
+          throw _iteratorError6;
+        }
+      }
+    }
+
+    videosRenderer(newArray);
+  }
+}
+
+searchButton.onclick = function () {
+  if (searchInput.value == "") {
+    videosRenderer(videos);
+  } else {
+    videosRenderer(newArray);
+  }
+
+  function reload() {
+    if (searchInput.value == "") {
+      window.reload();
+    }
+  }
+
+  reload();
+};
+
+voiceRec.onclick = function () {
+  var speechRecognition = window.webkitSpeechRecognition;
+  var voice = new speechRecognition();
+  voice.lang = 'en-EN';
+  voice.continuous = false;
+  voice.start();
+
+  voice.onresult = function (event) {
+    var result = event.results[0][0].transcript;
+    searchInput.value = result;
+    searchFun();
+  };
+
+  voice.onspeechend = function () {
+    voice.stop();
+  };
+};
 
 function videosRenderer(array) {
   videosList.innerHTML = null;
-  var _iteratorNormalCompletion5 = true;
-  var _didIteratorError5 = false;
-  var _iteratorError5 = undefined;
+  var _iteratorNormalCompletion7 = true;
+  var _didIteratorError7 = false;
+  var _iteratorError7 = undefined;
 
   try {
-    for (var _iterator5 = array[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-      var element = _step5.value;
+    var _loop = function _loop() {
+      var element = _step7.value;
       var videoItem = document.createElement('li');
       var videoWrap = document.createElement('div');
       var ifrWrap = document.createElement('span');
@@ -184,73 +291,101 @@ function videosRenderer(array) {
       videoItem.appendChild(chanelName);
       videoItem.appendChild(viwes);
       videosList.appendChild(videoItem);
-    } // let video = document.querySelectorAll(".video")
-    // let del = document.querySelectorAll(".delete")
-    // for (vi of video) {
-    //     for (d of del) {
-    //         d.onclick = () => {
-    //             vi.style.display = "none"
-    //         }
-    //     }
-    // }
+      var button = videoItem.childNodes[0].childNodes[2].childNodes[0];
+      button.addEventListener('click', function () {
+        videos.splice(element, 2);
+        videosRenderer(videos);
+      });
+    };
 
+    for (var _iterator7 = array[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+      _loop();
+    }
   } catch (err) {
-    _didIteratorError5 = true;
-    _iteratorError5 = err;
+    _didIteratorError7 = true;
+    _iteratorError7 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-        _iterator5["return"]();
+      if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
+        _iterator7["return"]();
       }
     } finally {
-      if (_didIteratorError5) {
-        throw _iteratorError5;
+      if (_didIteratorError7) {
+        throw _iteratorError7;
       }
     }
   }
 }
 
 videosRenderer(videos);
+var body = $("body");
 
 function modalRenderer() {
-  var items = document.querySelectorAll('.video');
-  var _iteratorNormalCompletion6 = true;
-  var _didIteratorError6 = false;
-  var _iteratorError6 = undefined;
+  var clicers = document.querySelectorAll('.coverImg');
+  var _iteratorNormalCompletion8 = true;
+  var _didIteratorError8 = false;
+  var _iteratorError8 = undefined;
 
   try {
-    var _loop = function _loop() {
-      var item = _step6.value;
+    var _loop2 = function _loop2() {
+      var c = _step8.value;
 
-      item.onclick = function (event) {
+      c.onclick = function () {
         var modalScreen = document.createElement("div");
         var modalVideo = document.createElement("div");
         var modalVideoIfr = document.createElement("iframe");
         var modalCloseBtn = document.createElement("button");
         var modalCloseImg = document.createElement("img");
-        var videoLink = item.childNodes[0].childNodes[0];
-        console.log("assalomu aleykum");
+        var videoLink = c.parentNode.childNodes[0].childNodes[0].src;
+        modalVideoIfr.src = videoLink + "?autoplay=1&mute=0";
+        modalScreen.classList.add("modalScreen");
+        modalVideo.classList.add("modalVideo");
+        modalVideoIfr.classList.add("modalVideoIfr");
+        modalCloseBtn.classList.add("modalCloseBtn");
+        modalCloseImg.classList.add("modalCloseImg");
+        modalCloseImg.src = "./img/close.svg";
+        modalCloseImg.width = "25px";
+        modalCloseImg.height = "25px";
+        modalCloseBtn.appendChild(modalCloseImg);
+        modalVideo.appendChild(modalVideoIfr);
+        modalVideo.appendChild(modalCloseBtn);
+        modalScreen.appendChild(modalVideo);
+        body.appendChild(modalScreen);
+        modalClose();
       };
     };
 
-    for (var _iterator6 = items[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-      _loop();
+    for (var _iterator8 = clicers[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+      _loop2();
     }
   } catch (err) {
-    _didIteratorError6 = true;
-    _iteratorError6 = err;
+    _didIteratorError8 = true;
+    _iteratorError8 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
-        _iterator6["return"]();
+      if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
+        _iterator8["return"]();
       }
     } finally {
-      if (_didIteratorError6) {
-        throw _iteratorError6;
+      if (_didIteratorError8) {
+        throw _iteratorError8;
       }
     }
   }
 }
 
+function modalClose() {
+  var btn = $(".modalCloseBtn");
+
+  btn.onclick = function () {
+    var modalScr = document.querySelector('.modalScreen');
+    modalScr.remove();
+    localStorage.clear();
+  };
+}
+
 modalRenderer();
-console.log("salom hammga");
+
+youTube.onclick = function () {
+  location.reload();
+};
